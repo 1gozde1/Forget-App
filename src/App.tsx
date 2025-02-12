@@ -1,16 +1,13 @@
-import React, { useState } from "react";
-import { Container, Typography, Button } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import LocationSelector from "./components/LocationSelector";
 import Checklist from "./components/Checklist/Checklist";
+import { useSelector } from "react-redux";
+import { RootState } from "./redux/store";
 
 const App = () => {
-  const [location, setLocation] = useState<string>("");
-  const [isLocationSelected, setIsLocationSelected] = useState<boolean>(false);
-
-  const handleLocationSelection = (selectedLocation: string) => {
-    setLocation(selectedLocation);
-    setIsLocationSelected(true); // Yer seçildiğinde butonu aktif yapar
-  };
+  const location = useSelector(
+    (state: RootState) => state.location.selectedLocation
+  );
 
   return (
     <Container
@@ -23,20 +20,18 @@ const App = () => {
       }}
     >
       <Typography variant="h4" gutterBottom>
-        Do Not Forget
+        Forget Not App
       </Typography>
 
       {location ? (
         <>
           <Typography variant="h6" gutterBottom>
-            Checklist for {location}
+            {location}
           </Typography>
           <Checklist location={location} />
         </>
       ) : (
-        <>
-          <LocationSelector onSelectLocation={handleLocationSelection} />
-        </>
+        <LocationSelector />
       )}
     </Container>
   );
