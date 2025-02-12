@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Checkbox,
   FormControlLabel,
@@ -6,80 +6,37 @@ import {
   ListItem,
   Divider,
 } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleChecklistItem } from "../../redux/checklistSlice";
+import { RootState } from "../../redux/store";
 
 interface ChecklistProps {
   location: string;
 }
 
-export const Checklist: React.FC<ChecklistProps> = ({ location }) => {
-  const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(
-    {}
+const Checklist: React.FC<ChecklistProps> = ({ location }) => {
+  const dispatch = useDispatch();
+  const checklist = useSelector(
+    (state: RootState) => state.checklist.checklist
   );
 
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCheckedItems({
-      ...checkedItems,
-      [event.target.name]: event.target.checked,
-    });
+  const handleCheckboxChange = (item: string) => {
+    dispatch(toggleChecklistItem(item));
   };
 
-  const checklistItems = {
-    Work: [
-      "Ipad",
-      "Logbook",
-      "Passport",
-      "2/ID cards",
-      "Landing card",
-      "Apron card",
-      "Pen",
-      "Hat",
-      "Keys",
-      "Wallet",
-    ],
-    Restaurant: ["Wallet", "Phone", "Keys"],
-    Gym: ["Wallet", "Phone", "Keys", "Towel", "Chain lock"],
-    Market: ["Shopping list", "Wallet", "Phone", "Keys"],
-    PreRide: [
-      "Helmet",
-      "Gloves",
-      "Ear plugs",
-      "Boots",
-      "Jacket",
-      "Pants",
-      "Balaclava",
-      "Turn on Intercom",
-      "Key Holder",
-      "Tyre pressure",
-      "Fuel",
-      "Chain",
-      "Brake fluid",
-      "Wallet",
-      "Phone",
-      "Keys",
-      "License",
-      "Vehicle Registration",
-    ],
-    PostRide: [
-      "Ear plugs",
-      "Turn off Intercom",
-      "Key Holder",
-      "Tyre pressure",
-      "Fuel",
-      "Chain",
-      "Brake fluid",
-      "Wallet",
-      "Phone",
-      "Keys",
-      "License",
-      "Vehicle Registration",
-    ],
-  };
+  const filteredChecklist: Record<string, boolean> =
+    checklist &&
+    checklist[location] &&
+    typeof checklist[location] === "object" &&
+    !Array.isArray(checklist[location])
+      ? (checklist[location] as unknown as Record<string, boolean>)
+      : {};
 
-  const itemsToDisplay = checklistItems[location] || [];
+  console.log("Filtered Checklist:", filteredChecklist);
 
   return (
     <List sx={{ maxWidth: 500, margin: "auto" }}>
-      {itemsToDisplay.map((item, index) => (
+      {Object.keys(filteredChecklist).map((item, index) => (
         <div key={index}>
           <ListItem
             sx={{ display: "flex", justifyContent: "space-between", p: 1 }}
@@ -87,9 +44,8 @@ export const Checklist: React.FC<ChecklistProps> = ({ location }) => {
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={checkedItems[`item${index + 1}`] || false}
-                  onChange={handleCheckboxChange}
-                  name={`item${index + 1}`}
+                  checked={filteredChecklist[item] || false}
+                  onChange={() => handleCheckboxChange(item)}
                   color="primary"
                 />
               }

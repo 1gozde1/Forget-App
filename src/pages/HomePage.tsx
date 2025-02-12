@@ -1,24 +1,21 @@
-import React from "react";
+import { Typography } from "@mui/material";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 import LocationSelector from "../components/LocationSelector";
 import Checklist from "../components/Checklist/Checklist";
-import BackgroundSection from "../components/BackgroundSection";
 
 const HomePage = () => {
-  const [location, setLocation] = React.useState<string>("");
-
-  const handleLocationSelection = (selectedLocation: string) => {
-    setLocation(selectedLocation);
-  };
+  const location = useSelector(
+    (state: RootState) => state.location.selectedLocation
+  );
 
   return (
-    <div>
-      <BackgroundSection />
+    <div style={{ textAlign: "center", marginTop: "20px" }}>
+      <Typography variant="h4" gutterBottom>
+        Forget Not App
+      </Typography>
 
-      {location ? (
-        <Checklist location={location} />
-      ) : (
-        <LocationSelector onSelectLocation={handleLocationSelection} />
-      )}
+      {location ? <Checklist location={location} /> : <LocationSelector />}
     </div>
   );
 };
