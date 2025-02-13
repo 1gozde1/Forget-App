@@ -24,19 +24,18 @@ const Checklist: React.FC<ChecklistProps> = ({ location }) => {
     dispatch(toggleChecklistItem(item));
   };
 
-  const filteredChecklist: Record<string, boolean> =
-    checklist &&
-    checklist[location] &&
-    typeof checklist[location] === "object" &&
-    !Array.isArray(checklist[location])
-      ? (checklist[location] as unknown as Record<string, boolean>)
+  const locationChecklist = checklist[location];
+
+  const safeLocationChecklist: Record<string, boolean> =
+    locationChecklist && typeof locationChecklist === "object"
+      ? locationChecklist
       : {};
 
-  console.log("Filtered Checklist:", filteredChecklist);
+  console.log("Location Checklist:", safeLocationChecklist);
 
   return (
     <List sx={{ maxWidth: 500, margin: "auto" }}>
-      {Object.keys(filteredChecklist).map((item, index) => (
+      {Object.keys(safeLocationChecklist).map((item, index) => (
         <div key={index}>
           <ListItem
             sx={{ display: "flex", justifyContent: "space-between", p: 1 }}
@@ -44,7 +43,7 @@ const Checklist: React.FC<ChecklistProps> = ({ location }) => {
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={filteredChecklist[item] || false}
+                  checked={safeLocationChecklist[item] || false}
                   onChange={() => handleCheckboxChange(item)}
                   color="primary"
                 />
