@@ -52,7 +52,7 @@ const checklistItems: Record<string, string[]> = {
   ],
 };
 
-interface ChecklistState {
+export interface ChecklistState {
   checklist: Record<string, boolean>;
 }
 

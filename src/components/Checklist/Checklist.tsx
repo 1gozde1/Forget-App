@@ -34,7 +34,7 @@ const Checklist: React.FC<ChecklistProps> = ({ location }) => {
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={checklist[item] || false}
+                  checked={!!checklist[item]}
                   onChange={() => handleCheckboxChange(item)}
                   color="primary"
                 />
