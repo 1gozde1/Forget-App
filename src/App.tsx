@@ -1,13 +1,27 @@
-import { Container, Typography } from "@mui/material";
+import { Container, Typography, Button, Box } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "./redux/store";
+import { login, logout } from "./redux/userSlice"; 
 import LocationSelector from "./components/LocationSelector";
 import Checklist from "./components/Checklist/Checklist";
-import { useSelector } from "react-redux";
-import { RootState } from "./redux/store";
+import LoginPage from './components/pages/LoginPage';
+import RegisterPage from './components/pages/RegisterPage';
 
-const App = () => {
+
+function App() {
   const location = useSelector(
     (state: RootState) => state.location.selectedLocation
   );
+  const user = useSelector((state: RootState) => state.user.user); 
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.user.isAuthenticated
+  ); 
+  const dispatch = useDispatch();
+
+  
+  const handleLogout = () => {
+    dispatch(logout()); 
+  };
 
   return (
     <Container
@@ -23,18 +37,37 @@ const App = () => {
         Forget Not App
       </Typography>
 
-      {location ? (
-        <>
-          <Typography variant="h6" gutterBottom>
-            {location}
+      {isAuthenticated ? (
+        <Box>
+          <Typography variant="h5" gutterBottom>
+            Hoşgeldiniz, {user?.username}!
           </Typography>
-          <Checklist location={location} />
-        </>
+          <Button variant="contained" color="primary" onClick={handleLogout}>
+            Çıkış Yap
+          </Button>
+
+          {location ? (
+            <>
+              <Typography variant="h6" gutterBottom>
+                {location}
+              </Typography>
+              <Checklist location={location} />
+            </>
+          ) : (
+            <LocationSelector />
+          )}
+        </Box>
       ) : (
-        <LocationSelector />
+        <Box>
+          <Typography variant="h6" gutterBottom>
+            Lütfen giriş yapın veya kaydolun
+          </Typography>
+          <LoginPage />
+          <RegisterPage />
+        </Box>
       )}
     </Container>
   );
-};
+}
 
 export default App;

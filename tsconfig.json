@@ -5,5 +5,11 @@
     "strict": true,
     "esModuleInterop": true,
     "types": ["jest", "node"]
-  }
+  },
+  "include": [
+    "src/**/*"
+  ]
 }
+
+
+

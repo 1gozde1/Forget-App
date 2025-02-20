@@ -1,8 +1,8 @@
 import { Typography } from "@mui/material";
 import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
-import LocationSelector from "../components/LocationSelector";
-import Checklist from "../components/Checklist/Checklist";
+import { RootState } from "../../redux/store";
+import LocationSelector from "../LocationSelector";
+import Checklist from "../Checklist/Checklist";
 
 const HomePage = () => {
   const location = useSelector(
