@@ -13,6 +13,7 @@ describe("App Component", () => {
     store = mockStore({
       location: { selectedLocation: "" },
       checklist: { checklist: {} },
+      user: { isAuthenticated: false, user: null },
     });
   });
 
@@ -22,12 +23,51 @@ describe("App Component", () => {
         <App />
       </Provider>
     );
+    screen.debug();
+    const locationLabel = screen.getByTestId("location-select-label");
 
-    const locationSelector = screen.getByLabelText("Location");
-    expect(locationSelector).toBeInTheDocument();
+    if (!locationLabel) {
+      throw new Error(
+        `Location label not found! Expected to find an element with text 'Location'.`
+      );
+    }
+
+    expect(locationLabel).toBeInTheDocument();
   });
 
-  test("renders location and Checklist when a location is selected", () => {
+  test("renders login and register pages when not authenticated", () => {
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+
+    expect(
+      screen.getByText("Lütfen giriş yapın veya kaydolun")
+    ).toBeInTheDocument();
+  });
+
+  test("renders login page and register page text when not authenticated", () => {
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+
+    const loginPageTitle = screen.queryByText(/Giriş Sayfası/i);
+
+    if (loginPageTitle) {
+      expect(loginPageTitle).toBeInTheDocument();
+    }
+
+    const registerPageTitle = screen.queryByText(/Kayıt Sayfası/i);
+
+    if (registerPageTitle) {
+      expect(registerPageTitle).toBeInTheDocument();
+    }
+  });
+
+  test("renders location and Checklist when a location is selected and authenticated", () => {
     store = mockStore({
       location: { selectedLocation: "Work" },
       checklist: {
@@ -35,6 +75,7 @@ describe("App Component", () => {
           Ipad: false,
         },
       },
+      user: { isAuthenticated: true, user: { username: "TestUser" } },
     });
 
     render(

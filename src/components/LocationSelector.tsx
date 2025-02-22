@@ -27,7 +27,12 @@ const LocationSelector: React.FC = () => {
   return (
     <Box sx={{ textAlign: "center", mt: 4 }}>
       <FormControl fullWidth>
-        <InputLabel id="location-select-label">Location</InputLabel>
+        <InputLabel
+          id="location-select-label"
+          data-testid="location-select-label"
+        >
+          Location
+        </InputLabel>
         <Select
           labelId="location-select-label"
           id="location-select"
