@@ -1,93 +1,90 @@
-import { render, screen } from "@testing-library/react";
-import { Provider } from "react-redux";
-import configureStore from "redux-mock-store";
-import App from "../App";
-import "@testing-library/jest-dom";
+import { render, screen } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import App from '../App';
+import '@testing-library/jest-dom';
 import 'react-router-dom';
-import { BrowserRouter as Router } from "react-router-dom";
-
+import { MemoryRouter } from 'react-router-dom';
+import { Store, UnknownAction } from 'redux';
 
 const mockStore = configureStore([]);
 
-describe("App Component", () => {
-  let store: any;
+describe('App Component', () => {
+	let store: any;
 
-  beforeEach(() => {
-    store = mockStore({
-      location: { selectedLocation: "" },
-      checklist: { checklist: {} },
-      user: { isAuthenticated: false, user: null }, 
-    });
-  });
+	beforeEach(() => {
+		store = mockStore({
+			location: { selectedLocation: '' },
+			checklist: { checklist: {} },
+			user: { isAuthenticated: false, user: null },
+		});
+	});
 
-  test("renders LocationSelector when no location is selected", () => {
-    render(
-      <Provider store={store}>
-        <App />
-      </Provider>
-    );
-    screen.debug();
-    const locationLabel = screen.getByLabelText("location-select-label");
-  
+	const renderWithDependencies = (
+		store: Store<unknown, UnknownAction, unknown>,
+	) => {
+		return render(
+			<MemoryRouter>
+				<Provider store={store}>
+					<App />
+				</Provider>
+			</MemoryRouter>,
+		);
+	};
 
-if (!locationLabel) {
-throw new Error(`Location label not found! Expected to find an element with text 'Location'.`);
-}
+	test('renders LocationSelector when no location is selected', () => {
+		renderWithDependencies(store);
+		screen.debug();
+		const locationLabel = screen.getByTestId('location-select-label');
 
-expect(locationLabel).toBeInTheDocument();
-  });
+		if (!locationLabel) {
+			throw new Error(
+				`Location label not found! Expected to find an element with text 'Location'.`,
+			);
+		}
 
-  test("renders login and register pages when not authenticated", () => {
-    render(
-      <Provider store={store}>
-        <App />
-      </Provider>
-    );
+		expect(locationLabel).toBeInTheDocument();
+	});
 
-    expect(screen.getByText("Lütfen giriş yapın veya kaydolun")).toBeInTheDocument();
-    
+	test('renders login and register pages when not authenticated', () => {
+		renderWithDependencies(store);
 
-});
+		expect(
+			screen.getByText('Lütfen giriş yapın veya kaydolun'),
+		).toBeInTheDocument();
+	});
 
-test("renders login page and register page text when not authenticated", () => {
-  render(
-    <Provider store={store}>
-      <App />
-    </Provider>
-  );
+	test('renders login page and register page text when not authenticated', () => {
+		renderWithDependencies(store);
 
-  const loginPageTitle = screen.queryByText(/Giriş Sayfası/i); 
-  
-if (loginPageTitle) {
-expect(loginPageTitle).toBeInTheDocument();
-}
+		const loginPageTitle = screen.queryByText(/Giriş Sayfası/i);
 
-const registerPageTitle = screen.queryByText(/Kayıt Sayfası/i); 
-  
-if (registerPageTitle) {
-expect(registerPageTitle).toBeInTheDocument();
-}
-});
+		if (loginPageTitle) {
+			expect(loginPageTitle).toBeInTheDocument();
+		}
 
-test("renders location and Checklist when a location is selected and authenticated", () => {
-store = mockStore({
-location: { selectedLocation: "Work" },
-checklist: {
-checklist: {
-Ipad: false,
-},
-},
-user:{isAuthenticated:true,user:{username:"TestUser"}},
-}); 
+		const registerPageTitle = screen.queryByText(/Kayıt Sayfası/i);
 
-render(
-<Provider store={store}>
-<App/>
-</Provider>
-);
+		if (registerPageTitle) {
+			expect(registerPageTitle).toBeInTheDocument();
+		}
+	});
 
-expect(screen.getByText("Work")).toBeInTheDocument(); 
-expect(screen.getByText("Ipad")).toBeInTheDocument();
+	test('renders location and Checklist when a location is selected and authenticated', () => {
+		store = mockStore({
+			location: { selectedLocation: 'Work' },
+			checklist: {
+				checklist: {
+					Ipad: false,
+          Passport: true
+				},
+			},
+			user: { isAuthenticated: true, user: { username: 'TestUser' } },
+		});
 
-});
+		renderWithDependencies(store);
+
+		expect(screen.getByText('Passport')).toBeInTheDocument();
+		expect(screen.getByText('Ipad')).toBeInTheDocument();
+	});
 });
