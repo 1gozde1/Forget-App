@@ -1,7 +1,6 @@
 import { Container, Typography, Button, Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
@@ -12,7 +11,6 @@ import HomePage from "./components/pages/HomePage";
 import LoginPage from "./components/pages/LoginPage";
 import RegisterPage from "./components/pages/RegisterPage";
 import Navbar from "./components/Navbar";
-import 'react-router-dom';
 
 function App() {
   const user = useSelector((state: RootState) => state.user.user);
@@ -26,7 +24,7 @@ function App() {
   };
 
   return (
-    <Router>
+    <>
       <Navbar />
       <Container
         sx={{
@@ -62,7 +60,7 @@ function App() {
           </Box>
         )}
       </Container>
-    </Router>
+    </>
   );
 }
 
