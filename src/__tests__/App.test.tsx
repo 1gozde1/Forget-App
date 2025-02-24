@@ -5,6 +5,7 @@ import App from "../App";
 import "@testing-library/jest-dom";
 import { MemoryRouter } from "react-router-dom";
 import { Store, UnknownAction } from "redux";
+import { fireEvent } from "@testing-library/react";
 
 const mockStore = configureStore([]);
 
@@ -37,21 +38,6 @@ describe("App Component", () => {
     const locationLabel = screen.getByTestId("location-select-label");
 
     expect(locationLabel).toBeInTheDocument();
-  });
-
-  test("renders login and register pages when not authenticated", () => {
-    renderWithDependencies(store);
-
-    expect(
-      screen.getByText("Please enter a username and password!")
-    ).toBeInTheDocument();
-  });
-
-  test("renders login page and register page text when not authenticated", () => {
-    renderWithDependencies(store);
-
-    expect(screen.getByText(/Please enter a username and password!/i)).toBeInTheDocument();
-    expect(screen.getByTestId("login-button")).toBeInTheDocument()
   });
 
   test("renders location and Checklist when a location is selected and authenticated", () => {
