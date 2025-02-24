@@ -57,6 +57,7 @@ const LoginPage = () => {
         />
         <Button
           type="submit"
+          data-testid="login-button"
           variant="contained"
           color="primary"
           fullWidth

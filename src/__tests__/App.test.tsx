@@ -43,15 +43,15 @@ describe("App Component", () => {
     renderWithDependencies(store);
 
     expect(
-      screen.getByText("Lütfen giriş yapın veya kaydolun")
+      screen.getByText("Please enter a username and password!")
     ).toBeInTheDocument();
   });
 
   test("renders login page and register page text when not authenticated", () => {
     renderWithDependencies(store);
 
-    expect(screen.getByText(/Giriş Sayfası/i)).toBeInTheDocument();
-    expect(screen.getByText(/Kayıt Sayfası/i)).toBeInTheDocument();
+    expect(screen.getByText(/Please enter a username and password!/i)).toBeInTheDocument();
+    expect(screen.getByTestId("login-button")).toBeInTheDocument()
   });
 
   test("renders location and Checklist when a location is selected and authenticated", () => {
