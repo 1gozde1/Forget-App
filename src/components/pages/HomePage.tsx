@@ -12,10 +12,10 @@ const HomePage = () => {
   return (
     <div style={{ textAlign: "center", marginTop: "20px" }}>
       <Typography variant="h4" gutterBottom>
-        Forget Not App
+        No more forgetting your stuff!
       </Typography>
 
-      {location ? <Checklist location={location} /> : <LocationSelector />}
+      {location ? <Checklist /> : <LocationSelector />}
     </div>
   );
 };
