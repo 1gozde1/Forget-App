@@ -10,11 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { toggleChecklistItem } from "../../redux/checklistSlice";
 import { RootState } from "../../redux/store";
 
-interface ChecklistProps {
-  location: string;
-}
-
-const Checklist: React.FC<ChecklistProps> = ({ location }) => {
+const Checklist: React.FC = () => {
   const dispatch = useDispatch();
   const checklist = useSelector(
     (state: RootState) => state.checklist.checklist
