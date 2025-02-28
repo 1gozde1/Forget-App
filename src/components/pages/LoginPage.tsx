@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/userSlice";
 import { RootState } from "../../redux/store";
-import { useNavigate } from "react-router-dom";
-import { Box, TextField, Button, Typography } from "@mui/material";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
+import { Box, TextField, Button, Typography, Link } from "@mui/material";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -57,7 +57,6 @@ const LoginPage = () => {
         />
         <Button
           type="submit"
-          data-testid="login-button"
           variant="contained"
           color="primary"
           fullWidth
@@ -66,6 +65,12 @@ const LoginPage = () => {
           Login
         </Button>
       </form>
+      <Typography sx={{ mt: 2 }}>
+        Don't have an account?{" "}
+        <Link component={RouterLink} to="/register">
+          Register here
+        </Link>
+      </Typography>
     </Box>
   );
 };
