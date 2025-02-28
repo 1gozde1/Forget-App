@@ -1,16 +1,28 @@
-import { Container, Typography, Button, Box } from "@mui/material";
+import { Container, Typography, Box, Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { RootState } from "./redux/store";
 import { logout } from "./redux/userSlice";
 import HomePage from "./components/pages/HomePage";
 import LoginPage from "./components/pages/LoginPage";
 import RegisterPage from "./components/pages/RegisterPage";
 import Navbar from "./components/Navbar";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+// Tema oluşturuyoruz
+const theme = createTheme({
+  typography: {
+    fontFamily: 'Poppins, sans-serif', // Poppins fontunu kullanıyoruz
+  },
+  palette: {
+    primary: {
+      main: '#f1c232', // Koyu sarı renk
+    },
+    secondary: {
+      main: '#ffcc00', // Diğer sarı tonları
+    },
+  },
+});
 
 function App() {
   const user = useSelector((state: RootState) => state.user.user);
@@ -24,7 +36,8 @@ function App() {
   };
 
   return (
-    <>
+    // Tema uygulamayı sarıyoruz
+    <ThemeProvider theme={theme}>
       <Navbar />
       <Container
         sx={{
@@ -35,7 +48,9 @@ function App() {
           borderRadius: 2,
         }}
       >
-        <Typography variant="h4" gutterBottom></Typography>
+        <Typography variant="h4" gutterBottom>
+          Forget-Not App
+        </Typography>
 
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -54,13 +69,31 @@ function App() {
             <Typography variant="h5" gutterBottom>
               Welcome {user?.username}!
             </Typography>
-            <Button variant="contained" color="primary" onClick={handleLogout}>
-              Logout
-            </Button>
+            <Box mt={2}>
+              <Typography variant="h6" gutterBottom>
+                You are logged in.
+              </Typography>
+            </Box>
+            <Box mt={2}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleLogout}
+                sx={{
+                  fontFamily: "Poppins, sans-serif",
+                  backgroundColor: "#ffcc00", // Daha parlak sarı tonunda logout butonu
+                  ":hover": {
+                    backgroundColor: "#f1c232", // Hover rengini koyu sarıya ayarladık
+                  },
+                }}
+              >
+                Logout
+              </Button>
+            </Box>
           </Box>
         )}
       </Container>
-    </>
+    </ThemeProvider>
   );
 }
 
