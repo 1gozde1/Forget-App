@@ -22,6 +22,10 @@ const Navbar = () => {
         <Button color="inherit" component={Link} to="/">
           Home
         </Button>
+        <Button color="inherit" component={Link} to="/lists">
+          My Lists
+        </Button>
+
         {!isAuthenticated ? (
           <Button color="inherit" component={Link} to="/login">
             Login
