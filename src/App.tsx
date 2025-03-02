@@ -8,18 +8,18 @@ import LoginPage from "./components/pages/LoginPage";
 import RegisterPage from "./components/pages/RegisterPage";
 import Navbar from "./components/Navbar";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import ListsPage from "./components/pages/ListsPage";
 
-// Tema oluşturuyoruz
 const theme = createTheme({
   typography: {
-    fontFamily: 'Poppins, sans-serif', // Poppins fontunu kullanıyoruz
+    fontFamily: "Poppins, sans-serif",
   },
   palette: {
     primary: {
-      main: '#f1c232', // Koyu sarı renk
+      main: "#f1c232",
     },
     secondary: {
-      main: '#ffcc00', // Diğer sarı tonları
+      main: "#ffcc00",
     },
   },
 });
@@ -36,7 +36,6 @@ function App() {
   };
 
   return (
-    // Tema uygulamayı sarıyoruz
     <ThemeProvider theme={theme}>
       <Navbar />
       <Container
@@ -54,6 +53,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/lists" element={<ListsPage />} />
           <Route
             path="/login"
             element={isAuthenticated ? <Navigate to="/" /> : <LoginPage />}
@@ -81,9 +81,9 @@ function App() {
                 onClick={handleLogout}
                 sx={{
                   fontFamily: "Poppins, sans-serif",
-                  backgroundColor: "#ffcc00", // Daha parlak sarı tonunda logout butonu
+                  backgroundColor: "#ffcc00",
                   ":hover": {
-                    backgroundColor: "#f1c232", // Hover rengini koyu sarıya ayarladık
+                    backgroundColor: "#f1c232",
                   },
                 }}
               >
