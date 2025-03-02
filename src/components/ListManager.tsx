@@ -20,16 +20,26 @@ import {
   addItemToList,
   removeItemFromList,
   selectLists,
-} from "../../redux/listsSlice";
+} from "../redux/listsSlice";
+
+interface ListItem {
+  id: string;
+  name: string;
+}
+
+interface LocationList {
+  id: string;
+  name: string;
+  location: string;
+  items: ListItem[];
+}
 
 const ListsPage: React.FC = () => {
   const [listName, setListName] = useState("");
   const [location, setLocation] = useState("");
-  const [newLocation, setNewLocation] = useState("");
   const [item, setItem] = useState("");
-  const [isOtherLocation, setIsOtherLocation] = useState(false);
   const dispatch = useDispatch();
-  const lists = useSelector(selectLists);
+  const lists = useSelector(selectLists) as LocationList[];
 
   const locations = [
     "Gym",
@@ -43,20 +53,13 @@ const ListsPage: React.FC = () => {
     "Car",
     "PreRideBike",
     "PostRideBike",
-    "Park",
-    "Hotel",
   ];
 
   const handleCreateList = () => {
-    const finalLocation =
-      isOtherLocation && newLocation.trim() ? newLocation : location;
-
-    if (listName.trim() && finalLocation.trim()) {
-      dispatch(createList({ name: listName, location: finalLocation }));
+    if (listName.trim() && location.trim()) {
+      dispatch(createList({ name: listName, location }));
       setListName("");
       setLocation("");
-      setNewLocation("");
-      setIsOtherLocation(false);
     }
   };
 
@@ -79,37 +82,14 @@ const ListsPage: React.FC = () => {
     <Container sx={{ mt: 4 }}>
       <FormControl fullWidth sx={{ mb: 2 }}>
         <InputLabel>Location</InputLabel>
-        <Select
-          value={location}
-          onChange={(e) => {
-            setLocation(e.target.value);
-            if (e.target.value === "Other") {
-              setIsOtherLocation(true);
-            } else {
-              setIsOtherLocation(false);
-            }
-          }}
-        >
+        <Select value={location} onChange={(e) => setLocation(e.target.value)}>
           {locations.map((loc) => (
             <MenuItem key={loc} value={loc}>
               {loc}
             </MenuItem>
           ))}
-          <MenuItem value="Other">Other</MenuItem>
         </Select>
       </FormControl>
-
-      {isOtherLocation && (
-        <TextField
-          label="New Location"
-          variant="outlined"
-          fullWidth
-          value={newLocation}
-          onChange={(e) => setNewLocation(e.target.value)}
-          sx={{ mb: 2 }}
-        />
-      )}
-
       <TextField
         label="New List Name"
         variant="outlined"
