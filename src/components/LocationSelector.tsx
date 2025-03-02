@@ -41,11 +41,14 @@ const LocationSelector: React.FC = () => {
           onChange={handleLocationChange}
         >
           <MenuItem value="Work">Work</MenuItem>
+          <MenuItem value="Office">Office</MenuItem>
           <MenuItem value="Restaurant">Restaurant</MenuItem>
+          <MenuItem value="Cafe">Cafe</MenuItem>
           <MenuItem value="Gym">Gym</MenuItem>
           <MenuItem value="Market">Market</MenuItem>
-          <MenuItem value="PreRide">PreRide</MenuItem>
-          <MenuItem value="PostRide">Post-Ride</MenuItem>
+          <MenuItem value="PreRideBike">PreRideBike</MenuItem>
+          <MenuItem value="PostRideBike">PostRideBike</MenuItem>
+          <MenuItem value="Car">Car</MenuItem>
         </Select>
       </FormControl>
     </Box>
