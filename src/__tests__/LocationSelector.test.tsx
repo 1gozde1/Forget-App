@@ -61,7 +61,7 @@ describe("LocationSelector Component", () => {
     expect(await screen.findByText("Restaurant")).toBeVisible();
     expect(await screen.findByText("Gym")).toBeVisible();
     expect(await screen.findByText("Market")).toBeVisible();
-    expect(await screen.findByText("PreRide")).toBeVisible();
-    expect(await screen.findByText("Post-Ride")).toBeVisible();
+    expect(await screen.findByText("PreRideBike")).toBeVisible();
+    expect(await screen.findByText("PostRideBike")).toBeVisible();
   });
 });

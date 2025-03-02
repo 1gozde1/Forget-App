@@ -41,7 +41,19 @@ const ListsPage: React.FC = () => {
   const dispatch = useDispatch();
   const lists = useSelector(selectLists) as LocationList[];
 
-  const locations = ["Gym", "Work", "Office", "Home", "School", "Market", "Cafe", "Restaurant", "Car", "PreRideBike", "PostRideBike"];
+  const locations = [
+    "Gym",
+    "Work",
+    "Office",
+    "Home",
+    "School",
+    "Market",
+    "Cafe",
+    "Restaurant",
+    "Car",
+    "PreRideBike",
+    "PostRideBike",
+  ];
 
   const handleCreateList = () => {
     if (listName.trim() && location.trim()) {

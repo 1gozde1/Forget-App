@@ -25,9 +25,9 @@ import {
 const ListsPage: React.FC = () => {
   const [listName, setListName] = useState("");
   const [location, setLocation] = useState("");
-  const [newLocation, setNewLocation] = useState(""); 
+  const [newLocation, setNewLocation] = useState("");
   const [item, setItem] = useState("");
-  const [isOtherLocation, setIsOtherLocation] = useState(false); // Track if 'Other' is selected
+  const [isOtherLocation, setIsOtherLocation] = useState(false);
   const dispatch = useDispatch();
   const lists = useSelector(selectLists);
 
@@ -48,7 +48,8 @@ const ListsPage: React.FC = () => {
   ];
 
   const handleCreateList = () => {
-    const finalLocation = isOtherLocation && newLocation.trim() ? newLocation : location;
+    const finalLocation =
+      isOtherLocation && newLocation.trim() ? newLocation : location;
 
     if (listName.trim() && finalLocation.trim()) {
       dispatch(createList({ name: listName, location: finalLocation }));
@@ -83,9 +84,9 @@ const ListsPage: React.FC = () => {
           onChange={(e) => {
             setLocation(e.target.value);
             if (e.target.value === "Other") {
-              setIsOtherLocation(true); // Show the "New Location" textfield when "Other" is selected
+              setIsOtherLocation(true);
             } else {
-              setIsOtherLocation(false); // Hide it if any other location is selected
+              setIsOtherLocation(false);
             }
           }}
         >
@@ -94,11 +95,10 @@ const ListsPage: React.FC = () => {
               {loc}
             </MenuItem>
           ))}
-          <MenuItem value="Other">Other</MenuItem> {/* Add "Other" option */}
+          <MenuItem value="Other">Other</MenuItem>
         </Select>
       </FormControl>
 
-      {/* Only show the new location textfield if 'Other' is selected */}
       {isOtherLocation && (
         <TextField
           label="New Location"
