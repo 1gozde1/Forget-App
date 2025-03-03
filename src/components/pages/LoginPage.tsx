@@ -3,11 +3,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/userSlice";
 import { RootState } from "../../redux/store";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
-import { Box, TextField, Button, Typography, Link } from "@mui/material";
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Link,
+  Checkbox,
+  FormControlLabel,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isAuthenticated = useSelector(
@@ -28,7 +41,7 @@ const LoginPage = () => {
       return;
     }
 
-    const userData = { username };
+    const userData = { username, rememberMe };
     dispatch(login(userData));
   };
 
@@ -49,11 +62,30 @@ const LoginPage = () => {
         <TextField
           fullWidth
           label="Password"
-          type="password"
+          type={showPassword ? "text" : "password"}
           variant="outlined"
           margin="normal"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+              color="primary"
+            />
+          }
+          label="Remember me"
         />
         <Button
           type="submit"
@@ -65,6 +97,11 @@ const LoginPage = () => {
           Login
         </Button>
       </form>
+      <Box sx={{ mt: 2 }}>
+        <Link component={RouterLink} to="/forgot-password">
+          Forgot your password?
+        </Link>
+      </Box>
       <Typography sx={{ mt: 2 }}>
         Don't have an account?{" "}
         <Link component={RouterLink} to="/register">
