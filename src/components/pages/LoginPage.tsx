@@ -11,16 +11,16 @@ import {
   Link,
   Checkbox,
   FormControlLabel,
-  InputAdornment,
   IconButton,
 } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isAuthenticated = useSelector(
@@ -45,6 +45,10 @@ const LoginPage = () => {
     dispatch(login(userData));
   };
 
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <Box sx={{ maxWidth: 400, margin: "auto", mt: 5, textAlign: "center" }}>
       <Typography variant="h5" gutterBottom>
@@ -58,6 +62,7 @@ const LoginPage = () => {
           margin="normal"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          sx={{ marginBottom: "6px" }}
         />
         <TextField
           fullWidth
@@ -67,26 +72,49 @@ const LoginPage = () => {
           margin="normal"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          sx={{ marginBottom: "6px" }}
           InputProps={{
             endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPassword}
+                edge="start"
+                sx={{ padding: 0 }}
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
             ),
           }}
         />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={rememberMe}
-              onChange={(e) => setRememberMe(e.target.checked)}
-              color="primary"
-            />
-          }
-          label="Remember me"
-        />
+
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{ mt: 1 }}
+        >
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                sx={{ p: 0, m: 0 }}
+              />
+            }
+            label="Remember me"
+            sx={{ m: 0, width: "auto", p: 0 }}
+            componentsProps={{ typography: { fontSize: "0.75rem" } }}
+          />
+
+          <Link
+            component={RouterLink}
+            to="/forgot-password"
+            sx={{ fontSize: "0.875rem" }}
+          >
+            Forgot your password?
+          </Link>
+        </Box>
+
         <Button
           type="submit"
           variant="contained"
@@ -97,14 +125,14 @@ const LoginPage = () => {
           Login
         </Button>
       </form>
-      <Box sx={{ mt: 2 }}>
-        <Link component={RouterLink} to="/forgot-password">
-          Forgot your password?
-        </Link>
-      </Box>
-      <Typography sx={{ mt: 2 }}>
+
+      <Typography sx={{ mt: 2, fontSize: "0.875rem" }}>
         Don't have an account?{" "}
-        <Link component={RouterLink} to="/register">
+        <Link
+          component={RouterLink}
+          to="/register"
+          sx={{ fontSize: "0.875rem" }}
+        >
           Register here
         </Link>
       </Typography>

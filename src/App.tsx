@@ -9,6 +9,7 @@ import RegisterPage from "./components/pages/RegisterPage";
 import Navbar from "./components/Navbar";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ListsPage from "./components/pages/ListsPage";
+import ForgotPasswordPage from "./components/pages/ForgotPasswordPage";
 
 const theme = createTheme({
   typography: {
@@ -47,10 +48,6 @@ function App() {
           borderRadius: 2,
         }}
       >
-        <Typography variant="h4" gutterBottom>
-          Forget-Not App
-        </Typography>
-
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/lists" element={<ListsPage />} />
@@ -62,6 +59,7 @@ function App() {
             path="/register"
             element={isAuthenticated ? <Navigate to="/" /> : <RegisterPage />}
           />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         </Routes>
 
         {isAuthenticated && (
