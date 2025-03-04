@@ -16,10 +16,15 @@ const Navbar = () => {
     navigate("/login");
   };
 
+  const handleHomeClick = () => {
+    navigate("/");
+    window.location.reload();
+  };
+
   return (
     <AppBar position="static">
       <Toolbar>
-        <Button color="inherit" component={Link} to="/">
+        <Button color="inherit" onClick={handleHomeClick}>
           Home
         </Button>
         <Button color="inherit" component={Link} to="/lists">

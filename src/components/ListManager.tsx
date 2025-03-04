@@ -81,7 +81,7 @@ const ListsPage: React.FC = () => {
   return (
     <Container sx={{ mt: 4 }}>
       <FormControl fullWidth sx={{ mb: 2 }}>
-        <InputLabel>Location</InputLabel>
+        <TextField>Location</TextField>
         <Select value={location} onChange={(e) => setLocation(e.target.value)}>
           {locations.map((loc) => (
             <MenuItem key={loc} value={loc}>
