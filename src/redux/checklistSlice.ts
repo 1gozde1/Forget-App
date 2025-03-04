@@ -16,7 +16,7 @@ const checklistItems: Record<string, string[]> = {
   Restaurant: ["Wallet", "Phone", "Keys"],
   Gym: ["Wallet", "Phone", "Keys", "Towel", "Chain lock"],
   Market: ["Shopping list", "Wallet", "Phone", "Keys"],
-  PreRide: [
+  PreRideBike: [
     "Helmet",
     "Gloves",
     "Boots",
@@ -36,7 +36,7 @@ const checklistItems: Record<string, string[]> = {
     "License",
     "Vehicle Registration",
   ],
-  PostRide: [
+  PostRideBike: [
     "Turn off Intercom",
     "Wallet",
     "Phone",

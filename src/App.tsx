@@ -10,6 +10,9 @@ import Navbar from "./components/Navbar";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ListsPage from "./components/pages/ListsPage";
 import ForgotPasswordPage from "./components/pages/ForgotPasswordPage";
+import Footer from "./components/footer";
+import HowToUsePage from "./components/pages/howToUsePage";
+import PrivacyPolicyPage from "./components/pages/privacyPolicyPage";
 
 const theme = createTheme({
   typography: {
@@ -38,59 +41,69 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Navbar />
-      <Container
-        sx={{
-          textAlign: "center",
-          mt: 4,
-          backgroundColor: "#f4f6f8",
-          padding: 4,
-          borderRadius: 2,
-        }}
+      <div
+        style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
       >
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/lists" element={<ListsPage />} />
-          <Route
-            path="/login"
-            element={isAuthenticated ? <Navigate to="/" /> : <LoginPage />}
-          />
-          <Route
-            path="/register"
-            element={isAuthenticated ? <Navigate to="/" /> : <RegisterPage />}
-          />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        </Routes>
+        <Navbar />
 
-        {isAuthenticated && (
-          <Box mt={2}>
-            <Typography variant="h5" gutterBottom>
-              Welcome {user?.username}!
-            </Typography>
+        <Container
+          sx={{
+            flexGrow: 1,
+            textAlign: "center",
+            mt: 4,
+            backgroundColor: "#f4f6f8",
+            padding: 4,
+            borderRadius: 2,
+          }}
+        >
+          <Routes>
+            <Route path="/" element={<HomePage key="home" />} />
+            <Route path="/lists" element={<ListsPage />} />
+            <Route
+              path="/login"
+              element={isAuthenticated ? <Navigate to="/" /> : <LoginPage />}
+            />
+            <Route
+              path="/register"
+              element={isAuthenticated ? <Navigate to="/" /> : <RegisterPage />}
+            />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/how-to-use" element={<HowToUsePage />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          </Routes>
+
+          {isAuthenticated && (
             <Box mt={2}>
-              <Typography variant="h6" gutterBottom>
-                You are logged in.
+              <Typography variant="h5" gutterBottom>
+                Welcome {user?.username}!
               </Typography>
+              <Box mt={2}>
+                <Typography variant="h6" gutterBottom>
+                  You are logged in.
+                </Typography>
+              </Box>
+              <Box mt={2}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleLogout}
+                  sx={{
+                    fontFamily: "Poppins, sans-serif",
+                    backgroundColor: "#ffcc00",
+                    ":hover": {
+                      backgroundColor: "#f1c232",
+                    },
+                  }}
+                >
+                  Logout
+                </Button>
+              </Box>
             </Box>
-            <Box mt={2}>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleLogout}
-                sx={{
-                  fontFamily: "Poppins, sans-serif",
-                  backgroundColor: "#ffcc00",
-                  ":hover": {
-                    backgroundColor: "#f1c232",
-                  },
-                }}
-              >
-                Logout
-              </Button>
-            </Box>
-          </Box>
-        )}
-      </Container>
+          )}
+        </Container>
+
+        <Footer />
+      </div>
     </ThemeProvider>
   );
 }
