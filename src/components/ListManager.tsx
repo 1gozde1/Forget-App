@@ -67,13 +67,13 @@ const ListsPage: React.FC = () => {
     dispatch(deleteList(listId));
   };
 
-  const handleDeleteItem = (listId: string, itemId: string) => {
-    dispatch(removeItemFromList({ listId, itemId }));
+  const handleDeleteItem = (locationId: string, itemId: string) => {
+    dispatch(removeItemFromList({ locationId, itemId }));
   };
 
-  const handleAddItem = (listId: string) => {
+  const handleAddItem = (locationId: string) => {
     if (item.trim()) {
-      dispatch(addItemToList({ listId, item }));
+      dispatch(addItemToList({ locationId, item }));
       setItem("");
     }
   };

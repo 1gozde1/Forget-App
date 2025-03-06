@@ -39,10 +39,10 @@ const listsSlice = createSlice({
 
     addItemToList(
       state,
-      action: PayloadAction<{ listId: string; item: string }>
+      action: PayloadAction<{ locationId: string; item: string }>
     ) {
       const list = state.lists.find(
-        (list) => list.id === action.payload.listId
+        (list) => list.id === action.payload.locationId
       );
       if (list) {
         list.items.push({
@@ -54,10 +54,10 @@ const listsSlice = createSlice({
 
     removeItemFromList(
       state,
-      action: PayloadAction<{ listId: string; itemId: string }>
+      action: PayloadAction<{ locationId: string; itemId: string }>
     ) {
       const list = state.lists.find(
-        (list) => list.id === action.payload.listId
+        (list) => list.id === action.payload.locationId
       );
       if (list) {
         list.items = list.items.filter(

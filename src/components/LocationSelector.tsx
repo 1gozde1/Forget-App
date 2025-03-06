@@ -31,7 +31,7 @@ const LocationSelector: React.FC = () => {
           id="location-select-label"
           data-testid="location-select-label"
         >
-          Location
+          Quick Start
         </InputLabel>
         <Select
           labelId="location-select-label"

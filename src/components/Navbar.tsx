@@ -1,8 +1,9 @@
-import { AppBar, Toolbar, Button } from "@mui/material";
+import { AppBar, Toolbar, Button, Box, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store";
 import { logout } from "../redux/userSlice";
+import ChecklistIcon from "@mui/icons-material/Checklist";
 
 const Navbar = () => {
   const isAuthenticated = useSelector(
@@ -24,22 +25,44 @@ const Navbar = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Button color="inherit" onClick={handleHomeClick}>
-          Home
-        </Button>
-        <Button color="inherit" component={Link} to="/lists">
-          My Lists
-        </Button>
+        <Box display="flex" alignItems="center" sx={{ flexGrow: 1 }}>
+          <ChecklistIcon sx={{ mr: 1 }} />
+          <Typography
+            variant="h6"
+            sx={{ cursor: "pointer" }}
+            onClick={handleHomeClick}
+          >
+            ReMind
+          </Typography>
+        </Box>
 
-        {!isAuthenticated ? (
-          <Button color="inherit" component={Link} to="/login">
-            Login
+        <Box display="flex" justifyContent="flex-end" width="100%" gap={2}>
+          <Button color="inherit" onClick={handleHomeClick}>
+            Home
           </Button>
-        ) : (
-          <Button color="inherit" onClick={handleLogout}>
-            Logout
+          <Button color="inherit" component={Link} to="/lists">
+            My Lists
           </Button>
-        )}
+          <Button color="inherit" component={Link} to="/feedback">
+            Feedback
+          </Button>
+
+          {!isAuthenticated ? (
+            <Button
+              color="primary"
+              variant="contained"
+              sx={{ borderRadius: 3 }}
+              component={Link}
+              to="/login"
+            >
+              Login
+            </Button>
+          ) : (
+            <Button color="inherit" onClick={handleLogout}>
+              Logout
+            </Button>
+          )}
+        </Box>
       </Toolbar>
     </AppBar>
   );
