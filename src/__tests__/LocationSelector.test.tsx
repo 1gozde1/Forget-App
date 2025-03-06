@@ -26,7 +26,7 @@ describe("LocationSelector Component", () => {
       </Provider>
     );
 
-    expect(screen.getByLabelText("Location")).toBeInTheDocument();
+    expect(screen.getByLabelText("Quick Start")).toBeInTheDocument();
   });
 
   test("dispatches setLocation and setChecklist actions on location change", async () => {
@@ -37,7 +37,7 @@ describe("LocationSelector Component", () => {
       </Provider>
     );
 
-    const selectElement = screen.getByLabelText("Location");
+    const selectElement = screen.getByLabelText("Quick Start");
     await user.click(selectElement);
 
     const option = await screen.findByText("Work");
@@ -54,7 +54,7 @@ describe("LocationSelector Component", () => {
       </Provider>
     );
 
-    const selectElement = screen.getByLabelText("Location");
+    const selectElement = screen.getByLabelText("Quick Start");
     await userEvent.click(selectElement);
 
     expect(await screen.findByText("Work")).toBeVisible();
