@@ -13,6 +13,7 @@ import ForgotPasswordPage from "./components/pages/ForgotPasswordPage";
 import Footer from "./components/footer";
 import HowToUsePage from "./components/pages/howToUsePage";
 import PrivacyPolicyPage from "./components/pages/privacyPolicyPage";
+import FeedbackForm from "./components/FeedbackForm";
 
 const theme = createTheme({
   typography: {
@@ -50,10 +51,13 @@ function App() {
           sx={{
             flexGrow: 1,
             textAlign: "center",
-            mt: 4,
-            backgroundColor: "#f4f6f8",
+            mt: 10,
+            mb: 10,
+            ml: 15,
+            mr: 20,
+            backgroundColor: "#f5f5f5",
             padding: 4,
-            borderRadius: 2,
+            borderRadius: 10,
           }}
         >
           <Routes>
@@ -63,6 +67,8 @@ function App() {
               path="/login"
               element={isAuthenticated ? <Navigate to="/" /> : <LoginPage />}
             />
+            <Route path="/feedback" element={<FeedbackForm />} />
+
             <Route
               path="/register"
               element={isAuthenticated ? <Navigate to="/" /> : <RegisterPage />}

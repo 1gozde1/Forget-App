@@ -64,13 +64,13 @@ const ListsPage: React.FC = () => {
     dispatch(deleteList(listId));
   };
 
-  const handleDeleteItem = (listId: string, itemId: string) => {
-    dispatch(removeItemFromList({ listId, itemId }));
+  const handleDeleteItem = (locationId: string, itemId: string) => {
+    dispatch(removeItemFromList({ locationId, itemId }));
   };
 
-  const handleAddItem = (listId: string) => {
+  const handleAddItem = (locationId: string) => {
     if (item.trim()) {
-      dispatch(addItemToList({ listId, item }));
+      dispatch(addItemToList({ locationId, item }));
       setItem("");
     }
   };
@@ -140,12 +140,13 @@ const ListsPage: React.FC = () => {
             <IconButton edge="end" onClick={() => handleDeleteList(list.id)}>
               <DeleteIcon />
             </IconButton>
+
             <List>
-              {list.items.map((item) => (
-                <ListItem key={item.id}>
-                  <ListItemText primary={item.name} />
+              {list.items.map((listItem) => (
+                <ListItem key={listItem.id}>
+                  <ListItemText primary={listItem.name} />
                   <IconButton
-                    onClick={() => handleDeleteItem(list.id, item.id)}
+                    onClick={() => handleDeleteItem(list.id, listItem.id)}
                   >
                     <DeleteIcon />
                   </IconButton>

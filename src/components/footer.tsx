@@ -7,9 +7,10 @@ const Footer: React.FC = () => {
     <Box
       sx={{
         backgroundColor: "#f5f5f5",
-        padding: "20px",
+        padding: "10px",
         textAlign: "center",
         mt: "auto",
+        borderRadius: 2,
       }}
     >
       <Typography variant="body2">
@@ -26,11 +27,9 @@ const Footer: React.FC = () => {
         >
           Privacy Policy
         </Link>
-        <Link component={RouterLink} to="/contact-us" sx={{ marginRight: 2 }}>
+
+        <Link component={RouterLink} to="/feedback" sx={{ marginRight: 2 }}>
           Contact Us
-        </Link>
-        <Link href="#feedback" sx={{ marginRight: 2 }}>
-          Share Your Feedback
         </Link>
       </Typography>
       <Typography variant="body2" sx={{ marginTop: "10px" }}>

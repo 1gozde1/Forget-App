@@ -24,21 +24,30 @@ const FeedbackForm: React.FC = () => {
   };
 
   return (
-    <Box sx={{ mt: 3 }}>
-      <Typography variant="h5" gutterBottom>
-        Share Your Feedback
+    <Box sx={{ mt: 3, maxWidth: 600, margin: "0 auto" }}>
+      <Typography variant="h6" gutterBottom>
+        Help Us Make It Better!
       </Typography>
       <TextField
         label="Your Feedback"
         variant="outlined"
         fullWidth
         multiline
-        rows={4}
+        rows={3}
         value={feedback}
         onChange={handleFeedbackChange}
         sx={{ mb: 2 }}
       />
-      <Typography variant="body2" sx={{ mb: 2 }}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleSubmit}
+        size="small"
+        sx={{ mb: 2 }}
+      >
+        Submit Feedback
+      </Button>
+      <Typography variant="body2" sx={{ mb: 1 }}>
         Rate the App:
       </Typography>
       <Rating
@@ -47,9 +56,6 @@ const FeedbackForm: React.FC = () => {
         onChange={handleRatingChange}
         sx={{ mb: 2 }}
       />
-      <Button variant="contained" color="primary" onClick={handleSubmit}>
-        Submit Feedback
-      </Button>
     </Box>
   );
 };

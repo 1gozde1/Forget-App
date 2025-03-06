@@ -5,7 +5,7 @@ const checklistItems: Record<string, string[]> = {
     "Ipad",
     "Logbook",
     "Passport",
-    "2/ID cards",
+    "ID cards",
     "Wallet",
     "Landing card",
     "Apron card",
