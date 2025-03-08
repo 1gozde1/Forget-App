@@ -5,7 +5,19 @@ import App from "../App";
 import "@testing-library/jest-dom";
 import { MemoryRouter } from "react-router-dom";
 import { Store, UnknownAction } from "redux";
-import { fireEvent } from "@testing-library/react";
+
+jest.mock("firebase/auth", () => ({
+  getAuth: jest.fn().mockReturnValue({
+    currentUser: { uid: "test-user-id" },
+    signOut: jest.fn(),
+  }),
+}));
+
+jest.mock("../firebase/firebaseConfig", () => ({
+  auth: {},
+  analytics: {},
+  default: {},
+}));
 
 const mockStore = configureStore([]);
 
