@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../redux/userSlice";
-import { RootState } from "../../redux/store";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebase/firebaseConfig";
 import {
   Box,
   TextField,
@@ -17,32 +16,30 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const LoginPage = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const dispatch = useDispatch();
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.user.isAuthenticated
-  );
 
   useEffect(() => {
-    if (isAuthenticated) {
+    const user = auth.currentUser;
+    if (user) {
       navigate("/");
     }
-  }, [isAuthenticated, navigate]);
+  }, [navigate]);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
 
-    if (!username || !password) {
-      alert("Please enter a username and password!");
-      return;
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate("/");
+    } catch (err: any) {
+      setError(err.message);
     }
-
-    const userData = { username, rememberMe };
-    dispatch(login(userData));
   };
 
   const handleClickShowPassword = () => {
@@ -57,12 +54,11 @@ const LoginPage = () => {
       <form onSubmit={handleLogin}>
         <TextField
           fullWidth
-          label="Username"
+          label="Email"
           variant="outlined"
           margin="normal"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          sx={{ marginBottom: "6px" }}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <TextField
           fullWidth
@@ -72,20 +68,19 @@ const LoginPage = () => {
           margin="normal"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          sx={{ marginBottom: "6px" }}
           InputProps={{
             endAdornment: (
               <IconButton
                 aria-label="toggle password visibility"
                 onClick={handleClickShowPassword}
                 edge="start"
-                sx={{ padding: 0 }}
               >
                 {showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
             ),
           }}
         />
+        {error && <Typography color="error">{error}</Typography>}
 
         <Box
           display="flex"
@@ -98,19 +93,11 @@ const LoginPage = () => {
               <Checkbox
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
-                sx={{ p: 0, m: 0 }}
               />
             }
             label="Remember me"
-            sx={{ m: 0, width: "auto", p: 0 }}
-            componentsProps={{ typography: { fontSize: "0.75rem" } }}
           />
-
-          <Link
-            component={RouterLink}
-            to="/forgot-password"
-            sx={{ fontSize: "0.875rem" }}
-          >
+          <Link component={RouterLink} to="/forgot-password">
             Forgot your password?
           </Link>
         </Box>
@@ -126,13 +113,9 @@ const LoginPage = () => {
         </Button>
       </form>
 
-      <Typography sx={{ mt: 2, fontSize: "0.875rem" }}>
+      <Typography sx={{ mt: 2 }}>
         Don't have an account?{" "}
-        <Link
-          component={RouterLink}
-          to="/register"
-          sx={{ fontSize: "0.875rem" }}
-        >
+        <Link component={RouterLink} to="/register">
           Register here
         </Link>
       </Typography>
