@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store";
 import { logout } from "../redux/userSlice";
 import ChecklistIcon from "@mui/icons-material/Checklist";
+import { auth } from "../firebase/firebaseConfig";
+import { signOut } from "firebase/auth";
 
 const Navbar = () => {
   const isAuthenticated = useSelector(
@@ -13,8 +15,14 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    dispatch(logout());
-    navigate("/login");
+    signOut(auth)
+      .then(() => {
+        dispatch(logout());
+        navigate("/login");
+      })
+      .catch((error) => {
+        console.error("Error during logout:", error);
+      });
   };
 
   const handleHomeClick = () => {
