@@ -1,37 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { register } from "../../redux/userSlice";
-import { RootState } from "../../redux/store";
 import { useNavigate } from "react-router-dom";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebase/firebaseConfig";
 import { Box, TextField, Button, Typography } from "@mui/material";
 
 const RegisterPage = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.user.isAuthenticated
-  );
 
   useEffect(() => {
-    if (isAuthenticated) {
+    const user = auth.currentUser;
+    if (user) {
       navigate("/");
     }
-  }, [isAuthenticated, navigate]);
+  }, [navigate]);
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
 
-    if (!username || !password) {
-      alert("Please enter a username and password!");
-      return;
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      navigate("/");
+    } catch (err: any) {
+      setError(err.message);
     }
-
-    const userData = { username };
-    dispatch(register(userData));
-
-    navigate("/login");
   };
 
   return (
@@ -42,11 +37,11 @@ const RegisterPage = () => {
       <form onSubmit={handleRegister}>
         <TextField
           fullWidth
-          label="Username"
+          label="Email"
           variant="outlined"
           margin="normal"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <TextField
           fullWidth
@@ -57,6 +52,8 @@ const RegisterPage = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        {error && <Typography color="error">{error}</Typography>}
+
         <Button
           type="submit"
           variant="contained"
