@@ -18,7 +18,7 @@
 .env.test.local
 .env.production.local
 
-# Ensure .env is ignored
+# .env is ignored
 .env
 
 npm-debug.log*

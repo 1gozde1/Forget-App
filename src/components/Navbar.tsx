@@ -11,6 +11,7 @@ const Navbar = () => {
   const isAuthenticated = useSelector(
     (state: RootState) => state.user.isAuthenticated
   );
+  const username = useSelector((state: RootState) => state.user.user?.username);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -33,6 +34,7 @@ const Navbar = () => {
   return (
     <AppBar position="static">
       <Toolbar>
+        {/* Sol taraf */}
         <Box display="flex" alignItems="center" sx={{ flexGrow: 1 }}>
           <ChecklistIcon sx={{ mr: 1 }} />
           <Typography
@@ -44,6 +46,23 @@ const Navbar = () => {
           </Typography>
         </Box>
 
+        {/* Sol tarafa yerleştirilen Welcome, username */}
+        {isAuthenticated && (
+          <Box display="flex" alignItems="center" sx={{ ml: 5 }}>
+            <Typography
+              variant="body2" // Yazı boyutunu küçültmek için body2 kullanabiliriz
+              sx={{
+                mr: 2,
+                fontSize: "14px",  // Yazı boyutunu daha küçük yapmak
+                whiteSpace: "nowrap", // Tek satıra indirmek için
+              }}
+            >
+              Welcome {username || "User"}
+            </Typography>
+          </Box>
+        )}
+
+        {/* Sağ taraf */}
         <Box display="flex" justifyContent="flex-end" width="100%" gap={2}>
           <Button color="inherit" onClick={handleHomeClick}>
             Home
@@ -55,7 +74,13 @@ const Navbar = () => {
             Feedback
           </Button>
 
-          {!isAuthenticated ? (
+          {isAuthenticated ? (
+            <>
+              <Button color="inherit" onClick={handleLogout}>
+                Logout
+              </Button>
+            </>
+          ) : (
             <Button
               color="primary"
               variant="contained"
@@ -64,10 +89,6 @@ const Navbar = () => {
               to="/login"
             >
               Login
-            </Button>
-          ) : (
-            <Button color="inherit" onClick={handleLogout}>
-              Logout
             </Button>
           )}
         </Box>

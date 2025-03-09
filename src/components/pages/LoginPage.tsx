@@ -30,9 +30,32 @@ const LoginPage = () => {
     }
   }, [navigate]);
 
+  const validateForm = () => {
+    if (!email || !password) {
+      setError("All fields are required.");
+      return false;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError("Invalid email format.");
+      return false;
+    }
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters long.");
+      return false;
+    }
+    if (!/(?=.*[A-Za-z])(?=.*\d)/.test(password)) {
+      setError("Password must contain at least one letter and one number.");
+      return false;
+    }
+    return true;
+  };
+
+  
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    if (!validateForm()) return;
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
