@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase/firebaseConfig";
+import { login } from "../../redux/userSlice";
 import {
   Box,
   TextField,
@@ -22,13 +24,7 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const user = auth.currentUser;
-    if (user) {
-      navigate("/");
-    }
-  }, [navigate]);
+  const dispatch = useDispatch();
 
   const validateForm = () => {
     if (!email || !password) {
@@ -50,7 +46,6 @@ const LoginPage = () => {
     return true;
   };
 
-  
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -58,7 +53,15 @@ const LoginPage = () => {
     if (!validateForm()) return;
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+
+      dispatch(login({ username: user.email || "User" }));
+
       navigate("/");
     } catch (err: any) {
       setError(err.message);
@@ -93,11 +96,7 @@ const LoginPage = () => {
           onChange={(e) => setPassword(e.target.value)}
           InputProps={{
             endAdornment: (
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                edge="start"
-              >
+              <IconButton onClick={handleClickShowPassword} edge="start">
                 {showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
             ),
@@ -139,6 +138,7 @@ const LoginPage = () => {
       <Typography sx={{ mt: 2 }}>
         Don't have an account?{" "}
         <Link component={RouterLink} to="/register">
+
           Register here
         </Link>
       </Typography>

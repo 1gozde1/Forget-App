@@ -92,6 +92,11 @@ const RegisterPage = () => {
     }
   };
 
+  useEffect(() => {
+    console.log("Register Page Rendered!");
+  }, []);
+  
+
   return (
     <Box sx={{ maxWidth: 400, margin: "auto", mt: 5, textAlign: "center" }}>
       <Typography variant="h5" gutterBottom>
