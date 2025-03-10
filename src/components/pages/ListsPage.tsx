@@ -16,13 +16,22 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import { createList, deleteList, selectLists } from "../../redux/listsSlice";
 import { useNavigate } from "react-router-dom";
+import { RootState } from "../../redux/store";
 
 const ListsPage: React.FC = () => {
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.user.isAuthenticated
+  );
   const [listName, setListName] = useState("");
   const [location, setLocation] = useState("");
   const dispatch = useDispatch();
   const lists = useSelector(selectLists);
   const navigate = useNavigate();
+
+  if (!isAuthenticated) {
+    navigate("/login");
+    return null;
+  }
 
   const locations = [
     "Gym",

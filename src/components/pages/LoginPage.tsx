@@ -138,7 +138,6 @@ const LoginPage = () => {
       <Typography sx={{ mt: 2 }}>
         Don't have an account?{" "}
         <Link component={RouterLink} to="/register">
-
           Register here
         </Link>
       </Typography>

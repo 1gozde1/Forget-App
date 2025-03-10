@@ -18,13 +18,13 @@ const userSlice = createSlice({
       state.user = { username: action.payload.username };
       state.isAuthenticated = true;
     },
-    logout: (state) => {
-      state.user = null;
-      state.isAuthenticated = false;
-    },
     register: (state, action: PayloadAction<{ username: string }>) => {
       state.user = { username: action.payload.username };
       state.isAuthenticated = true;
+    },
+    logout: (state) => {
+      state.user = null;
+      state.isAuthenticated = false;
     },
   },
 });
