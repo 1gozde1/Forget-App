@@ -63,7 +63,12 @@ function App() {
         >
           <Routes>
             <Route path="/" element={<HomePage key="home" />} />
-            <Route path="/lists" element={<ListsPage />} />
+            <Route
+              path="/lists"
+              element={
+                isAuthenticated ? <ListsPage /> : <Navigate to="/login" />
+              }
+            />
             <Route path="/lists/:id" element={<ListDetailPage />} />
 
             <Route

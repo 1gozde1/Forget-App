@@ -84,9 +84,8 @@ const RegisterPage = () => {
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-
       dispatch(register({ username }));
-      setIsRegistered(true);
+      navigate("/");
     } catch (err: any) {
       setError(err.message);
     }
