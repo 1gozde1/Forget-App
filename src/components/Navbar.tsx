@@ -34,7 +34,6 @@ const Navbar = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        {/* Sol taraf */}
         <Box display="flex" alignItems="center" sx={{ flexGrow: 1 }}>
           <ChecklistIcon sx={{ mr: 1 }} />
           <Typography
@@ -46,15 +45,14 @@ const Navbar = () => {
           </Typography>
         </Box>
 
-        {/* Sol tarafa yerleştirilen Welcome, username */}
         {isAuthenticated && (
           <Box display="flex" alignItems="center" sx={{ ml: 5 }}>
             <Typography
-              variant="body2" // Yazı boyutunu küçültmek için body2 kullanabiliriz
+              variant="body2"
               sx={{
                 mr: 2,
-                fontSize: "14px",  // Yazı boyutunu daha küçük yapmak
-                whiteSpace: "nowrap", // Tek satıra indirmek için
+                fontSize: "14px",
+                whiteSpace: "nowrap",
               }}
             >
               Welcome {username || "User"}
@@ -62,7 +60,6 @@ const Navbar = () => {
           </Box>
         )}
 
-        {/* Sağ taraf */}
         <Box display="flex" justifyContent="flex-end" width="100%" gap={2}>
           <Button color="inherit" onClick={handleHomeClick}>
             Home
