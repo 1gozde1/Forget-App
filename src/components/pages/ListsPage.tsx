@@ -14,22 +14,15 @@ import {
   InputLabel,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {
-  createList,
-  deleteList,
-  addItemToList,
-  removeItemFromList,
-  selectLists,
-} from "../../redux/listsSlice";
+import { createList, deleteList, selectLists } from "../../redux/listsSlice";
+import { useNavigate } from "react-router-dom";
 
 const ListsPage: React.FC = () => {
   const [listName, setListName] = useState("");
   const [location, setLocation] = useState("");
-  const [newLocation, setNewLocation] = useState("");
-  const [item, setItem] = useState("");
-  const [isOtherLocation, setIsOtherLocation] = useState(false);
   const dispatch = useDispatch();
   const lists = useSelector(selectLists);
+  const navigate = useNavigate();
 
   const locations = [
     "Gym",
@@ -43,20 +36,13 @@ const ListsPage: React.FC = () => {
     "Car",
     "PreRideBike",
     "PostRideBike",
-    "Park",
-    "Hotel",
   ];
 
   const handleCreateList = () => {
-    const finalLocation =
-      isOtherLocation && newLocation.trim() ? newLocation : location;
-
-    if (listName.trim() && finalLocation.trim()) {
-      dispatch(createList({ name: listName, location: finalLocation }));
+    if (listName.trim() && location.trim()) {
+      dispatch(createList({ name: listName, location }));
       setListName("");
       setLocation("");
-      setNewLocation("");
-      setIsOtherLocation(false);
     }
   };
 
@@ -64,52 +50,22 @@ const ListsPage: React.FC = () => {
     dispatch(deleteList(listId));
   };
 
-  const handleDeleteItem = (locationId: string, itemId: string) => {
-    dispatch(removeItemFromList({ locationId, itemId }));
-  };
-
-  const handleAddItem = (locationId: string) => {
-    if (item.trim()) {
-      dispatch(addItemToList({ locationId, item }));
-      setItem("");
-    }
+  const handleReset = () => {
+    navigate("/lists", { replace: true });
   };
 
   return (
     <Container sx={{ mt: 4 }}>
       <FormControl fullWidth sx={{ mb: 2 }}>
         <InputLabel>Location</InputLabel>
-        <Select
-          value={location}
-          onChange={(e) => {
-            setLocation(e.target.value);
-            if (e.target.value === "Other") {
-              setIsOtherLocation(true);
-            } else {
-              setIsOtherLocation(false);
-            }
-          }}
-        >
+        <Select value={location} onChange={(e) => setLocation(e.target.value)}>
           {locations.map((loc) => (
             <MenuItem key={loc} value={loc}>
               {loc}
             </MenuItem>
           ))}
-          <MenuItem value="Other">Other</MenuItem>
         </Select>
       </FormControl>
-
-      {isOtherLocation && (
-        <TextField
-          label="New Location"
-          variant="outlined"
-          fullWidth
-          value={newLocation}
-          onChange={(e) => setNewLocation(e.target.value)}
-          sx={{ mb: 2 }}
-        />
-      )}
-
       <TextField
         label="New List Name"
         variant="outlined"
@@ -125,37 +81,24 @@ const ListsPage: React.FC = () => {
       <List sx={{ mt: 3 }}>
         {lists.map((list) => (
           <ListItem key={list.id}>
-            <ListItemText primary={`${list.name} (${list.location})`} />
-            <TextField
-              label="Add Item"
-              variant="outlined"
-              size="small"
-              value={item}
-              onChange={(e) => setItem(e.target.value)}
-              sx={{ ml: 2 }}
+            <ListItemText
+              primary={`${list.name} (${list.location})`}
+              onClick={() => navigate(`/lists/${list.id}`)}
+              sx={{
+                cursor: "pointer",
+                "&:hover": { textDecoration: "underline" },
+              }}
             />
-            <Button onClick={() => handleAddItem(list.id)} sx={{ ml: 1 }}>
-              Add
-            </Button>
             <IconButton edge="end" onClick={() => handleDeleteList(list.id)}>
               <DeleteIcon />
             </IconButton>
-
-            <List>
-              {list.items.map((listItem) => (
-                <ListItem key={listItem.id}>
-                  <ListItemText primary={listItem.name} />
-                  <IconButton
-                    onClick={() => handleDeleteItem(list.id, listItem.id)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </ListItem>
-              ))}
-            </List>
           </ListItem>
         ))}
       </List>
+
+      <Button variant="contained" color="secondary" onClick={handleReset}>
+        Reset
+      </Button>
     </Container>
   );
 };

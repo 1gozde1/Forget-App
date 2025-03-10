@@ -6,9 +6,10 @@ import {
   InputLabel,
   SelectChangeEvent,
   Box,
+  Button,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { setLocation } from "../redux/locationSlice";
+import { setLocation, resetLocation } from "../redux/locationSlice";
 import { RootState } from "../redux/store";
 import { setChecklist } from "../redux/checklistSlice";
 
@@ -22,6 +23,11 @@ const LocationSelector: React.FC = () => {
     const selected = event.target.value;
     dispatch(setLocation(selected));
     dispatch(setChecklist(selected));
+  };
+
+  const handleReset = () => {
+    dispatch(resetLocation());
+    dispatch(setChecklist(""));
   };
 
   return (
@@ -51,6 +57,17 @@ const LocationSelector: React.FC = () => {
           <MenuItem value="Car">Car</MenuItem>
         </Select>
       </FormControl>
+
+      {selectedLocation && (
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={{ mt: 2 }}
+          onClick={handleReset}
+        >
+          Reset Location
+        </Button>
+      )}
     </Box>
   );
 };

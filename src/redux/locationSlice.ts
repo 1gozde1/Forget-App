@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface LocationState {
-  selectedLocation: string;
+  selectedLocation: string | null;
 }
 
 const initialState: LocationState = {
-  selectedLocation: "", // Başlangıçta boş
+  selectedLocation: null,
 };
 
 const locationSlice = createSlice({
@@ -15,8 +15,11 @@ const locationSlice = createSlice({
     setLocation: (state, action: PayloadAction<string>) => {
       state.selectedLocation = action.payload;
     },
+    resetLocation: (state) => {
+      state.selectedLocation = null;
+    },
   },
 });
 
-export const { setLocation } = locationSlice.actions;
+export const { setLocation, resetLocation } = locationSlice.actions;
 export default locationSlice.reducer;

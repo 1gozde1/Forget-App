@@ -9,6 +9,7 @@ import RegisterPage from "./components/pages/RegisterPage";
 import Navbar from "./components/Navbar";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ListsPage from "./components/pages/ListsPage";
+import ListDetailPage from "./components/pages/ListDetailPage";
 import ForgotPasswordPage from "./components/pages/ForgotPasswordPage";
 import Footer from "./components/footer";
 import HowToUsePage from "./components/pages/howToUsePage";
@@ -63,12 +64,13 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage key="home" />} />
             <Route path="/lists" element={<ListsPage />} />
+            <Route path="/lists/:id" element={<ListDetailPage />} />
+
             <Route
               path="/login"
               element={isAuthenticated ? <Navigate to="/" /> : <LoginPage />}
             />
             <Route path="/feedback" element={<FeedbackForm />} />
-
             <Route
               path="/register"
               element={isAuthenticated ? <Navigate to="/" /> : <RegisterPage />}
