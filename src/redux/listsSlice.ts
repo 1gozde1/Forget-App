@@ -28,8 +28,8 @@ const listsSlice = createSlice({
       state,
       action: PayloadAction<{ name: string; location: string }>
     ) {
-      const newList = {
-        id: new Date().toISOString(),
+      const newList: LocationList = {
+        id: crypto.randomUUID(),
         name: action.payload.name,
         location: action.payload.location,
         items: [],
@@ -39,25 +39,26 @@ const listsSlice = createSlice({
 
     addItemToList(
       state,
-      action: PayloadAction<{ locationId: string; item: string }>
+      action: PayloadAction<{ listId: string; itemName: string }>
     ) {
       const list = state.lists.find(
-        (list) => list.id === action.payload.locationId
+        (list) => list.id === action.payload.listId
       );
       if (list) {
-        list.items.push({
-          id: new Date().toISOString(),
-          name: action.payload.item,
-        });
+        const newItem: ListItem = {
+          id: crypto.randomUUID(),
+          name: action.payload.itemName,
+        };
+        list.items.push(newItem);
       }
     },
 
     removeItemFromList(
       state,
-      action: PayloadAction<{ locationId: string; itemId: string }>
+      action: PayloadAction<{ listId: string; itemId: string }>
     ) {
       const list = state.lists.find(
-        (list) => list.id === action.payload.locationId
+        (list) => list.id === action.payload.listId
       );
       if (list) {
         list.items = list.items.filter(
@@ -72,9 +73,9 @@ const listsSlice = createSlice({
   },
 });
 
+export const selectLists = (state: { lists: ListsState }) => state.lists.lists;
+
 export const { createList, deleteList, addItemToList, removeItemFromList } =
   listsSlice.actions;
-
-export const selectLists = (state: { lists: ListsState }) => state.lists.lists;
 
 export default listsSlice.reducer;

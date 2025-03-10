@@ -26,7 +26,7 @@ const RegisterPage = () => {
   >(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isRegistered, setIsRegistered] = useState(false);  // Kayıt durumu için state
+  const [isRegistered, setIsRegistered] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -86,7 +86,7 @@ const RegisterPage = () => {
       await createUserWithEmailAndPassword(auth, email, password);
 
       dispatch(register({ username }));
-      setIsRegistered(true);  // Kayıt başarılı olduğunda "Let's Start" butonunu göster
+      setIsRegistered(true);
     } catch (err: any) {
       setError(err.message);
     }
@@ -95,7 +95,6 @@ const RegisterPage = () => {
   useEffect(() => {
     console.log("Register Page Rendered!");
   }, []);
-  
 
   return (
     <Box sx={{ maxWidth: 400, margin: "auto", mt: 5, textAlign: "center" }}>
@@ -182,8 +181,8 @@ const RegisterPage = () => {
         >
           Register
         </Button>
-        
-        {/* "Let's Start" butonu, yalnızca kayıt sonrası görünür */}
+
+        {/* "Let's Start" butonu, burayı sonra düzelt. ÖNEMLİ!!*/}
         {isRegistered && (
           <Button
             variant="contained"
