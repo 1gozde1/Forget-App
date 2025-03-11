@@ -1,4 +1,4 @@
-import { Container, Typography, Box, Button } from "@mui/material";
+import { Container, Box, Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { RootState } from "./redux/store";
@@ -15,6 +15,7 @@ import Footer from "./components/footer";
 import HowToUsePage from "./components/pages/howToUsePage";
 import PrivacyPolicyPage from "./components/pages/privacyPolicyPage";
 import FeedbackForm from "./components/FeedbackForm";
+import "./styles.css";
 
 const theme = createTheme({
   typography: {
@@ -31,7 +32,6 @@ const theme = createTheme({
 });
 
 function App() {
-  const user = useSelector((state: RootState) => state.user.user);
   const isAuthenticated = useSelector(
     (state: RootState) => state.user.isAuthenticated
   );
@@ -87,30 +87,20 @@ function App() {
 
           {isAuthenticated && (
             <Box mt={2}>
-              <Typography variant="h5" gutterBottom>
-                Welcome {user?.username}!
-              </Typography>
-              <Box mt={2}>
-                <Typography variant="h6" gutterBottom>
-                  You are logged in.
-                </Typography>
-              </Box>
-              <Box mt={2}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleLogout}
-                  sx={{
-                    fontFamily: "Poppins, sans-serif",
-                    backgroundColor: "#ffcc00",
-                    ":hover": {
-                      backgroundColor: "#f1c232",
-                    },
-                  }}
-                >
-                  Logout
-                </Button>
-              </Box>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleLogout}
+                sx={{
+                  fontFamily: "Poppins, sans-serif",
+                  backgroundColor: "#ffcc00",
+                  ":hover": {
+                    backgroundColor: "#f1c232",
+                  },
+                }}
+              >
+                Logout
+              </Button>
             </Box>
           )}
         </Container>

@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
     <Box
       sx={{
         backgroundColor: "#f5f5f5",
-        padding: "10px",
+        padding: "50px 20px",
         textAlign: "center",
         mt: "auto",
         borderRadius: 2,
