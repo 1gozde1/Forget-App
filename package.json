@@ -57,5 +57,8 @@
     "jest": "^29.7.0",
     "redux-mock-store": "^1.5.5",
     "ts-jest": "^29.2.6"
-  }
+  },
+  "homepage": "https://forget-app.vercel.app"
+
 }
+
